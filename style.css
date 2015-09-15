@@ -1,0 +1,47 @@
+body {
+    padding: 20px 10px;
+    font-family: arial;
+    max-width: 2000px;
+    margin: 0 auto; 
+}                 
+h1 {
+    text-align: center;
+    color: #294860; 
+}
+a:link {
+    color: #00B233;
+}
+a:visited {
+    color: #FBEFFB;
+}
+
+p {
+    margin: 10px 0;
+}
+
+ul {
+    list-style-type: none; 
+}
+
+li {
+    font-size: 1.2em;
+    line-height: 2em; 
+}
+.links {
+    background-color: #8A0829;
+    border-radius: 20px;
+    color: white;
+    padding: 10px;
+    margin: 10px auto;
+}
+
+.topic {
+    background-color: #3182bd;
+    border-radius: 20px;
+    color: white;
+    padding: 10px;
+    margin: 10px auto;
+}
+
+h2 {
+    margin: 10px;
