@@ -11,6 +11,21 @@ template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
 
+DEFAULT_GUESTBOOK_NAME = "Public"
+
+def guestbook_key(guestbook_name=DEFAULT_GUESTBOOK_NAME):
+   return ndb.Key('Guestbook', guestbook_name)
+
+
+class Author(ndb.Model):
+    identity = ndb.StringProperty(indexed=False)
+    email = ndb.StringProperty(indexed=False)
+
+
+class Greeting(ndb.Model):
+    author = ndb.StructuredProperty(Author)
+    content = ndb.StringProperty(indexed=False)
+    date = ndb.DateTimeProperty(auto_now_add=True)
 
 #class Handler(webapp2.RequestHandler):
     #def write(self, *a, **kw):
@@ -52,7 +67,7 @@ class MainPage(webapp2.RequestHandler):
             'url_linktext': url_linktext,
         }
 
-        template = JINJA_ENVIRONMENT.get_template('home.html')
+        template = jinja_env.get_template('home.html')
         self.response.write(template.render(template_values))
 
 app = webapp2.WSGIApplication([
