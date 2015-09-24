@@ -27,29 +27,14 @@ class Greeting(ndb.Model):
     content = ndb.StringProperty(indexed=False)
     date = ndb.DateTimeProperty(auto_now_add=True)
 
-#class Handler(webapp2.RequestHandler):
-    #def write(self, *a, **kw):
-       #self.response.out.write(*a, **kw)
-
-   # def render_str(self, template, **params):
-       # t = jinja_env.get_template(template)
-        #return t.render(params)
-
-   # def render(self, template, **kw):
-      #  self.write(self.render_str(template, **kw))
-
-
-#class MainPage(Handler):
-   # def get(self):
-      #  items = self.request.get_all("name")
-       # self.render("home.html", items = items)
 
 class MainPage(webapp2.RequestHandler):
 
     def get(self):
         guestbook_name = self.request.get('guestbook_name', DEFAULT_GUESTBOOK_NAME)
         greetings_query = Greeting.query(ancestor=guestbook_key(guestbook_name)).order(-Greeting.date)
-        greetings = greetings_query.fetch(10)
+        max_greetings = 10
+        greetings = greetings_query.fetch(max_greetings)
 
         user = users.get_current_user()
         if user:
@@ -70,6 +55,89 @@ class MainPage(webapp2.RequestHandler):
         template = jinja_env.get_template('home.html')
         self.response.write(template.render(template_values))
 
+
+class Stage(webapp2.RequestHandler):
+
+  def get(self, stage_number):
+        stage_pages = {'0': 'stage0.html',
+                       '1': 'stage1.html',
+                       '2': 'stage2.html',
+                       '3': 'stage3.html',
+                       '4': 'stage4.html',
+                       '5': 'stage5.html'}
+
+        guestbook_name = self.request.get('guestbook_name', DEFAULT_GUESTBOOK_NAME)
+        greetings_query = Greeting.query(ancestor=guestbook_key(guestbook_name)).order(-Greeting.date)
+        max_greetings = 10
+        greetings = greetings_query.fetch(max_greetings)
+
+        user = users.get_current_user()
+        if user:
+            url = users.create_logout_url(self.request.uri)
+            url_linktext = 'Logout'
+        else:
+            url = users.create_login_url(self.request.uri)
+            url_linktext = 'Login'
+
+        template_values = {
+            'user': user,
+            'greetings': greetings,
+            'guestbook_name': urllib.quote_plus(guestbook_name),
+            'url': url,
+            'url_linktext': url_linktext,
+        }
+
+        template = jinja_env.get_template(stage_pages[stage_number])
+        self.response.write(template.render(template_values))
+
+class Home(webapp2.RequestHandler):
+
+  def get(self):
+        guestbook_name = self.request.get('guestbook_name', DEFAULT_GUESTBOOK_NAME)
+        greetings_query = Greeting.query(ancestor=guestbook_key(guestbook_name)).order(-Greeting.date)
+        max_greetings = 10
+        greetings = greetings_query.fetch(max_greetings)
+
+        user = users.get_current_user()
+        if user:
+            url = users.create_logout_url(self.request.uri)
+            url_linktext = 'Logout'
+        else:
+            url = users.create_login_url(self.request.uri)
+            url_linktext = 'Login'
+
+        template_values = {
+            'user': user,
+            'greetings': greetings,
+            'guestbook_name': urllib.quote_plus(guestbook_name),
+            'url': url,
+            'url_linktext': url_linktext,
+        }
+
+        template = jinja_env.get_template('home.html')
+        self.response.write(template.render(template_values))
+
+
+class Guestbook(webapp2.RequestHandler):
+    def post(self):
+        guestbook_name = self.request.get('guestbook_name', DEFAULT_GUESTBOOK_NAME)
+        greeting = Greeting(parent=guestbook_key(guestbook_name))
+
+        if users.get_current_user():
+            greeting.author = Author(
+                    identity=users.get_current_user().user_id(),
+                    email=users.get_current_user().email())
+
+        greeting.content = self.request.get('content')
+        greeting.put()
+       
+        query_params = {'guestbook_name': guestbook_name}
+        self.redirect('/?' + urllib.urlencode(query_params))
+
+
 app = webapp2.WSGIApplication([
     ('/', MainPage),
+    ('/sign', Guestbook),
+    ('/stage(\d+)\.html', Stage),
+    ('/home.html', Home),
 ], debug=True)
