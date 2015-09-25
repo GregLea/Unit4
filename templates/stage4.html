@@ -1,0 +1,37 @@
+{% extends "header.html" %}
+
+{% block content %}
+  <div class="stage 4">
+      <u><h2>Stage 4</h2></u>
+    </div>
+  <div class="concept">
+    <div class="topic">
+        Servers
+    </div>
+    <div class="text">
+         The purpose of a server is to respond to HTTP requests sent to it by anyone who has some sort of Internet access.<br>There are two types of responses that servers can send in response to a HTTP request or web content: Static and Dynamic.<br>Static content is something that doesn't change often or at all, like a pure HTML file or an image.Dynamic content is any content that requires some level of processing before the content can be generated. This might be something that requires java to render, for example. I'm most familiar with dynamic requests when it comes to comments on a website, where the user will enter in their name and comment, and the webstie will capture that data in a database, and post the comment back to the website that they are viewing.<br>
+
+    </div>
+</div>
+<div class="concept">
+    <div class="topic">
+        Validation
+    </div>
+    <div class="text">
+       Validation is the process that ensures that the data a server is supplied by a browser or network fits into the parameters that the server would expect to see. For example, a person who wants to enter in their birthday might have that data validated by the server to make sure it is an actual date that can exist and not just random information. User inputs aren't just limited to dates, but can be free form comments, names, etc. This also helps improve the user experience. A user might enter their birthday day by Day, Month, Year when our system needs Month, Day, Year. The validation process can let the know that they have entered that infomration incorrectly. In cases of a form with many fields, validation can let them know if they have missed a field in a long form, and highlight that field in red to show them what is needed.<br>However, it is also possible for users to hijack and manipulate the website by placing in the form their own HTML code that would force the server to run thier code when responding the the dynamic input. Since these inputs are often GET commands that will add thier input to the URL, it is possible that an end user can override the function of your website and use the website for other means. This is a security hole that has to be considered when creating any sort of open form input fields that can be used by users.<br>Luckily, you can use a process called escaping, that will change HTML tags and commmands into a beign form that will keep the formatting of their input without actually modifying the content or URL of the website. 
+    </div>
+</div>
+<div class="concept">
+    <div class="topic">
+        HTML Templates 
+    </div>
+    <div class="text">
+      Templates are efficient ways of avoiding code repetition, and saving time. HTML templates allow programmers to build strings of HTML within another language, like Python. This allows programmers to uses HTML and Python together in a way that keeps each object clean and organized in their own box. These templates allow programmers to separate out any HTML from the programming language. As we have done in this unit, we have create a Python file that runs our code and renders the guestbook and pages, and HTML pages that have no code on them, so that they are separate HTML documents that are easier to read and maintain. This also allows programmers to create base HTML documents that all other pages can inherit and share, allowing programmers to create headers and footers that remain across the website, while the body of the HTML document can change.
+    </div>
+      
+      <br>
+      <br>
+      <br>
+    </div>
+</div>
+    {% endblock %}
