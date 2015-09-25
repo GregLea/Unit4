@@ -35,6 +35,9 @@ class MainPage(webapp2.RequestHandler):
         greetings_query = Greeting.query(ancestor=guestbook_key(guestbook_name)).order(-Greeting.date)
         max_greetings = 10
         greetings = greetings_query.fetch(max_greetings)
+        
+        error = self.request.get('error', 'Sorry, blank comments are not allowed.')
+
 
         user = users.get_current_user()
         if user:
@@ -43,13 +46,14 @@ class MainPage(webapp2.RequestHandler):
         else:
             url = users.create_login_url(self.request.uri)
             url_linktext = 'Login'
-
+        
         template_values = {
             'user': user,
             'greetings': greetings,
             'guestbook_name': urllib.quote_plus(guestbook_name),
             'url': url,
             'url_linktext': url_linktext,
+            'error': error,
         }
 
         template = jinja_env.get_template('home.html')
@@ -71,6 +75,9 @@ class Stage(webapp2.RequestHandler):
         max_greetings = 10
         greetings = greetings_query.fetch(max_greetings)
 
+        error = self.request.get('error', 'Sorry, blank comments are not allowed.')
+
+
         user = users.get_current_user()
         if user:
             url = users.create_logout_url(self.request.uri)
@@ -78,13 +85,14 @@ class Stage(webapp2.RequestHandler):
         else:
             url = users.create_login_url(self.request.uri)
             url_linktext = 'Login'
-
+        
         template_values = {
             'user': user,
             'greetings': greetings,
             'guestbook_name': urllib.quote_plus(guestbook_name),
             'url': url,
             'url_linktext': url_linktext,
+            'error': error,
         }
 
         template = jinja_env.get_template(stage_pages[stage_number])
@@ -98,6 +106,9 @@ class Home(webapp2.RequestHandler):
         max_greetings = 10
         greetings = greetings_query.fetch(max_greetings)
 
+        error = self.request.get('error', 'Sorry, blank comments are not allowed.')
+
+
         user = users.get_current_user()
         if user:
             url = users.create_logout_url(self.request.uri)
@@ -105,13 +116,14 @@ class Home(webapp2.RequestHandler):
         else:
             url = users.create_login_url(self.request.uri)
             url_linktext = 'Login'
-
+        
         template_values = {
             'user': user,
             'greetings': greetings,
             'guestbook_name': urllib.quote_plus(guestbook_name),
             'url': url,
             'url_linktext': url_linktext,
+            'error': error,
         }
 
         template = jinja_env.get_template('home.html')
@@ -129,10 +141,45 @@ class Guestbook(webapp2.RequestHandler):
                     email=users.get_current_user().email())
 
         greeting.content = self.request.get('content')
-        greeting.put()
+
+        if greeting.content == '':
+            self.redirect('/error')
+        else: 
+            greeting.put()
        
         query_params = {'guestbook_name': guestbook_name}
         self.redirect('/?' + urllib.urlencode(query_params))
+
+class ErrorHandler(webapp2.RequestHandler):
+
+    def get(self):
+        guestbook_name = self.request.get('guestbook_name', DEFAULT_GUESTBOOK_NAME)
+        greetings_query = Greeting.query(ancestor=guestbook_key(guestbook_name)).order(-Greeting.date)
+        max_greetings = 10
+        greetings = greetings_query.fetch(max_greetings)
+
+        error = self.request.get('error', 'Sorry, blank comments are not allowed.')
+
+
+        user = users.get_current_user()
+        if user:
+            url = users.create_logout_url(self.request.uri)
+            url_linktext = 'Logout'
+        else:
+            url = users.create_login_url(self.request.uri)
+            url_linktext = 'Login'
+        
+        template_values = {
+            'user': user,
+            'greetings': greetings,
+            'guestbook_name': urllib.quote_plus(guestbook_name),
+            'url': url,
+            'url_linktext': url_linktext,
+            'error': error,
+        }
+
+        template = jinja_env.get_template('home.html')
+        self.response.write(template.render(template_values))
 
 
 app = webapp2.WSGIApplication([
@@ -140,4 +187,5 @@ app = webapp2.WSGIApplication([
     ('/sign', Guestbook),
     ('/stage(\d+)\.html', Stage),
     ('/home.html', Home),
+    ('/error', ErrorHandler),
 ], debug=True)
