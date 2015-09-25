@@ -22,6 +22,8 @@
 		{% block content %}
 		{% endblock %}
 
+<br>
+<center><h2>Guestbook comments</h2></center>
     {% for greeting in greetings %}
       {% if greeting.author %}
         <b>{{ greeting.author.email }}
@@ -34,6 +36,10 @@
       {% endif %}
       <blockquote>{{ greeting.content }}</blockquote>
     {% endfor %}
+    {% if error %}
+      <strong></center>{{error}}</center></strong><br>
+    {% endif %}
+
 
     <form action="/sign?guestbook_name={{ guestbook_name }}" method="post">
       <div><textarea name="content" rows="3" cols="60"></textarea></div>
