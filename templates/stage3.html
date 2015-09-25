@@ -1,0 +1,85 @@
+{% extends "header.html" %}
+
+{% block content %}
+  <div class="stage 3">
+      <u><h2>Stage 3</h2></u>
+    </div>
+  <div class="concept">
+    <div class="topic">
+        Object Oriented Programming (OOP)
+    </div>
+    <div class="text">
+         Object-oriented programming or OOP as the cool kids call it, is a type of programming that is based on the concept that objects can be made that will contain
+data that can be accessed and used. This gives programmers the ability to create small containers of data that then can be used to pull data points from, instead
+of having to create one large all incompassing program. This also helps to break up the work load, allowing programmers to create and test the data without having to
+build a large program from the start. Since these objects can interact with each other, it is easy to build the pieces of the whole before making the whole. These
+objects contain classes, instances, methods, modules, and libraries.<br>
+
+    </div>
+</div>
+<div class="concept">
+    <div class="topic">
+        Class
+    </div>
+    <div class="text">
+         While the object is the structure that contains all the data that the programmers wants, classes define the data, sort of acting like a blueprint.
+For example, you can have a blueprint of a bicycle to make many different types of bikes. In programming, that blueprint is the class.
+      <br><video width="640" height="360" src="https://www.youtube.com/embed/Rj7stAXAUas?rel=0" frameborder="0" allowfullscreen></video>
+    </div>
+</div>
+<div class="concept">
+    <div class="topic">
+        Instance 
+    </div>
+    <div class="text">
+         If you were to make a red bike and a blue bike, both would be made from the blueprint or Class of Bicylce, but each is a different color. That means that each
+color bike is an instance of the class bicycle. An instance is the individual example of that class, or the bike made from the blueprint. Since the class defines the data that
+the program needs to be concerned with, when an instance of that class is run, the code shouldn't be able to access other programs data accidentally, hopefully making
+the program cleaner and easier to use and debug. OOP also allows the concept of inheritance to work, so that each instance of the class cen be unique, but still inherit 
+qualities from the main class, like having 2 wheels. OOP Inheritance allows programmers to reuse code easily. <br> Inheritance is when an object or class is based on another existing object or class, and uses some of the same implementations to maintain the same behavior.
+
+    </div>
+</div>
+<div class="concept">
+    <div class="topic">
+        Method
+    </div>
+    <div class="text">
+         Once all of the objects are made, we need to do something with them. In OOP, method is similar to making a procedure that we learned before, basically it is a programmed procedure that is defined as part of the class in any object. There can be more than one method within an object, and that method will only be able to access data that is known by or in that object. Some classes, or subclasses, can override exisitng methods in the main class by using a method with the same name or parameters. Which method that is used is determined by the object that accesses it. This is Method Overriding. <br> Method overriding is the feature in OOP that allows a subclass or child class to provide a specific implementation of a method that is already provided by one of its parent classes. The implementation in the subclass overrides or replaces the implementation in the  parent class by using a method that has same name, parameters, and return as the method in the parent class.
+
+    </div>
+</div>
+<div class="concept">
+    <div class="topic">
+        Modules
+    </div>
+    <div class="text">
+         OOP has the ability to group methods or proceedures in to modules to help with organization. Modules are created so that code in one module doesn't accidentally use the same
+proceedure of a different module. These modules are usually not linked together until the final program is created and they are linked together then. This allows prograamers to create new
+modules as needed without having to alter any existing modules.
+
+    </div>
+</div>
+<div class="concept">
+    <div class="topic">
+        Library
+    </div>
+    <div class="text">
+         A library in OOP is the collection of all the prewritten classes, any of which the programmer can access and use. The programmer specifies which classes or objects to use
+when the program is executed. For example, I could have three classess for the steps in my web notes in my library, and the webpage program would pull from that libary in the order that 
+I specify when creating the webpage.
+    </div>
+</div>
+  <div class="concept">
+    <div class="topic">
+        HTML, CSS and OOP
+    </div>
+    <div class="text">
+        In working with OOP, the varous object and classes reminded me of writing the code in CODEPEN. The two boxes that I currently use, HTML and CSS, feel like objects and classes to me. Each has a method in them to generate a type of proceedure to create the webpage. The CSS object accesses and alters the HTML object, by using code that overrides the default setings of the HMTL object. In a way, CSS feels a bit like a child object of the main HTML object, and it has method overriding built into it. It's also very modular, like OOP. I could use the HMTL object with a different CSS and get a very different webpage design. Or I could use the CSS object on someone else's webpage to change that page to my liking. <Br><br> This example is to help me try to grasp the idea of abstraction. Abstraction has been defined to me as the process of taking a real world object and trying to recreate that in programming terms. Using the bike example, I can break down the bike into it's parts (or classes), such as having pedals, two wheels, handlebars, and the like. By breaking down the object bike in to this data, I can see how to make that into data that can be used as a blueprint. Abstraction allows me and a programmer to focus on the details that are important to the final product. If I need to make many bikes, I need to know what makes up a bike. Abstraction seems to be the concept of moving the focus from the details and concrete implementation of things, to the types of things (classes), the operations available (methods), to making the programming simpler, more general, and more abstract.<br><br> In this way, I need to know what works in HMTL (things like font and margins, topics and text - which are classes in programming connecting it to classes in OOP as it is the data being used), and what I can make in CSS and how CSS works to alter the HTML object.
+      
+      <br>
+      <br>
+      <br>
+    </div>
+</div>
+    {% endblock %}
